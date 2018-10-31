@@ -265,7 +265,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private static _mapOptionsAttributes: string[] = [
     'disableDoubleClickZoom', 'scrollwheel', 'draggable', 'draggableCursor', 'draggingCursor',
     'keyboardShortcuts', 'zoomControl', 'zoomControlOptions', 'styles', 'streetViewControl',
-    'streetViewControlOptions', 'zoom', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
+    'streetViewControlOptions', 'mapTypeControl', 'mapTypeControlOptions', 'minZoom',
     'maxZoom', 'panControl', 'panControlOptions', 'rotateControl', 'rotateControlOptions',
     'fullscreenControl', 'fullscreenControlOptions', 'scaleControl', 'scaleControlOptions',
     'mapTypeId', 'clickableIcons', 'gestureHandling'
@@ -276,6 +276,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
 
   private _currentCenterLongitude: number = 0;
   private _currentCenterLatitude: number = 0;
+  private _currentZoom: number = 0;
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
@@ -396,6 +397,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     this._updateMapOptionsChanges(changes);
     this._updatePosition(changes);
+    this._updateZoom(changes);
   }
 
   private _updateMapOptionsChanges(changes: SimpleChanges) {
@@ -447,6 +449,12 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
     // apply changes to map
     if (this.latitude !== this._currentCenterLatitude || this.longitude !== this._currentCenterLongitude) {
       this._setCenter();
+    }
+  }
+
+  private _updateZoom(changes: SimpleChanges) {
+    if (changes['zoom'] && this.zoom !== this._currentZoom){
+      this._mapsWrapper.setZoom(this.zoom);
     }
   }
 
@@ -530,6 +538,7 @@ export class AgmMap implements OnChanges, OnInit, OnDestroy {
   private _handleMapZoomChange() {
     const s = this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
       this._mapsWrapper.getZoom().then((z: number) => {
+        this._currentZoom = z;
         this.zoom = z;
         this.zoomChange.emit(z);
       });

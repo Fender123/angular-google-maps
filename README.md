@@ -12,6 +12,18 @@ Angular 2+ components for Google Maps. (Previously known as angular2-google-maps
 
 [![Build Status](https://travis-ci.org/SebastianM/angular-google-maps.svg?branch=master)](https://travis-ci.org/SebastianM/angular-google-maps) [![Questions?: join the chat](https://img.shields.io/badge/questions%3F-join%20the%20chat-blue.svg)](https://discord.gg/XAr2ACE) [![npm version](https://badge.fury.io/js/%40agm%2Fcore.svg)](https://www.npmjs.com/package/@agm/core) ![supported angular versions: 5+](https://img.shields.io/badge/supported%20angular%20versions-5+-green.svg)
 
+## Custom fixes
+
+- fixed map drag issues (https://github.com/miiihi/angular-google-maps)
+- fixed map zoom issues (don't set zoom on Google Map unless the value has changed (compared to current internal value))
+
+## Build instructions
+
+- clone this repository
+- run `npm install`
+- run `npm run build` 
+- copy files in `dist/packages/core/` to project (`public/js/agmCore`) and rebuild project js files
+
 ## Packages
 
 This project is a mono repo and hosts multiple packages:
